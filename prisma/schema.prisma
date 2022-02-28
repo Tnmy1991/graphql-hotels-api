@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Hotel {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @db.VarChar(255)
+  address   String   @db.VarChar(255)
+  rating    Float
+  phone     String   @db.VarChar(255)
+  email     String   @unique @db.VarChar(255)
+  latitude  Float
+  longitude Float
+  country   String   @db.VarChar(255)
+  pincode   String   @db.Char(6)
+  checkIn   Int
+  checkOut  Int
+  tariffs   Tariff[]
+  reviews   Review[]
+  amenities Amenities?
+}
+
+model Tariff {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  hotel     Hotel    @relation(fields: [hotelId], references: [id])
+  hotelId   Int
+  roomType  String
+  tariff    Float
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  hotel     Hotel    @relation(fields: [hotelId], references: [id])
+  hotelId   Int
+  reviewer  String   @db.VarChar(255)
+  comment   String   @db.VarChar(555)
+  rating    Int
+}
+
+model Amenities {
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  hotel        Hotel    @relation(fields: [hotelId], references: [id])
+  hotelId      Int
+  wifi         Boolean  @default(false)
+  roomService  Boolean  @default(false)
+  locker       Boolean  @default(false)
+  swimmingPool Boolean  @default(false)
+  giftShops    Boolean  @default(false)
+}
