@@ -1,12 +1,13 @@
 type Query {
   hotels(latitude: Float!, longitude: Float!): [Hotel!]
-  hotel(id: ID!): Hotel!
-  reviews(id: ID!): [Review!]
+  hotel(id: Int!): Hotel!
+  reviews(id: Int!): [Review!]
 }
 
 type Mutation {
   createHotel(data: CreateHotelInput): Hotel!
   createHotelTariff(data: CreateHotelTariffInput): Tariff!
+  createHotelReview(data: CreateHotelReviewInput): Review!
 }
 
 type Hotel {
@@ -24,8 +25,8 @@ type Hotel {
   pincode:   String!
   checkIn:   Int!
   checkOut:  Int!
-  tariffs:   [Tariff!]!
-  reviews:   [Review!]!
+  tariffs:   [Tariff!]
+  reviews:   [Review!]
   amenities: Amenities
 }
 
@@ -87,7 +88,14 @@ input CreateHotelInput {
 }
 
 input CreateHotelTariffInput {
-  hotelId: ID!
+  hotel: Int!
   roomType: RoomType!
   tariff: Float!
+}
+
+input CreateHotelReviewInput {
+  hotel: Int!
+  reviewer:  String!
+  comment:   String!
+  rating:    Int!
 }

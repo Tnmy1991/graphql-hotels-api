@@ -2,8 +2,12 @@ const Query = {
   hotels(parent, args, { prisma }, info) {
     return prisma.hotel.findMany({
       where: {
-        latitude: args.latitude,
-        longitude: args.longitude
+        latitude: {
+          gte: args.latitude
+        },
+        longitude: {
+          gte: args.longitude
+        }
       },
     });
   },
@@ -11,6 +15,11 @@ const Query = {
     return prisma.hotel.findUnique({
       where: {
         id: args.id
+      },
+      include: {
+        tariffs: true,
+        reviews: true,
+        amenities: true,
       },
     }, info);
   },
