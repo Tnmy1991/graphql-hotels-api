@@ -1,0 +1,93 @@
+type Query {
+  hotels(latitude: Float!, longitude: Float!): [Hotel!]
+  hotel(id: ID!): Hotel!
+  reviews(id: ID!): [Review!]
+}
+
+type Mutation {
+  createHotel(data: CreateHotelInput): Hotel!
+  createHotelTariff(data: CreateHotelTariffInput): Tariff!
+}
+
+type Hotel {
+  id:        ID!
+  createdAt: String!
+  updatedAt: String!
+  name:      String!
+  address:   String!
+  rating:    Float!
+  phone:     String!
+  email:     String!
+  latitude:  Float!
+  longitude: Float!
+  country:   String!
+  pincode:   String!
+  checkIn:   Int!
+  checkOut:  Int!
+  tariffs:   [Tariff!]!
+  reviews:   [Review!]!
+  amenities: Amenities
+}
+
+type Tariff {
+  id:        ID!
+  createdAt: String!
+  updatedAt: String!
+  hotelId:   Int!
+  roomType:  String!
+  tariff:    Float!
+}
+
+type Review {
+  id:        ID!
+  createdAt: String!
+  updatedAt: String!
+  hotelId:   Int!
+  reviewer:  String!
+  comment:   String!
+  rating:    Int!
+}
+
+type Amenities {
+  id:           ID!
+  createdAt:    String!
+  updatedAt:    String!
+  hotelId:      Int!
+  wifi:         Boolean!
+  roomService:  Boolean!
+  locker:       Boolean!
+  swimmingPool: Boolean!
+  giftShops:    Boolean!
+}
+
+enum RoomType {
+  DELUX
+  SINGLE
+  EXECUTIVE
+  PREMIUM_DOUBLE
+}
+
+input CreateHotelInput {
+  name:         String!
+  address:      String!
+  rating:       Float!
+  phone:        String!
+  email:        String!
+  latitude:     Float!
+  longitude:    Float!
+  country:      String!
+  pincode:      String!
+  checkIn:      Int!
+  checkOut:     Int!
+  wifi:         Boolean!
+  roomService:  Boolean!
+  locker:       Boolean!
+  swimmingPool: Boolean!
+  giftShops:    Boolean!
+}
+
+input CreateHotelTariffInput {
+  hotelId: ID!
+  roomType: RoomType!
+  tariff: Float!
+}
